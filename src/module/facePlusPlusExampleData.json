@@ -1,0 +1,28 @@
+{
+    "request_id":"1621925956,9cdc80a4-0b2c-4d28-83a1-a0e6ee7aa636",
+    "time_used":340,
+    "faces":[
+        {
+            "face_token":"3f508ea88fc0e33550b595c6b65112e7",
+            "face_rectangle":{
+                "top":309,
+                "left":742,
+                "width":298,
+                "height":298
+            },
+            "attributes":{
+                "emotion":{
+                    "anger":0.014,
+                    "disgust":0.023,
+                    "fear":0.031,
+                    "happiness":98.895,
+                    "neutral":0.496,
+                    "sadness":0.047,
+                    "surprise":0.495
+                }
+            }
+        }
+    ],
+    "image_id":"4qywIKIDHLvfeV7UHBPzZg==",
+    "face_num":1
+}
