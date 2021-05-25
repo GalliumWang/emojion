@@ -25,10 +25,7 @@ function onResults(results) {
   fpsControl.tick();
 
   // Draw the overlays.
-  canvasCtx.save();
   canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-  canvasCtx.drawImage(
-      results.image, 0, 0, canvasElement.width, canvasElement.height);
   if (results.multiHandLandmarks && results.multiHandedness) {
     for (let index = 0; index < results.multiHandLandmarks.length; index++) {
       const classification = results.multiHandedness[index];
@@ -46,7 +43,6 @@ function onResults(results) {
       });
     }
   }
-  canvasCtx.restore();
 }
 
 const hands = new Hands({locateFile: (file) => {
