@@ -18,7 +18,6 @@ body {
   bottom: 0;
 
   min-width: 640px;
-  min-height: 360px;
 
   transform-origin: 0px 0px;
   overflow: auto;
@@ -33,6 +32,7 @@ body {
   position: relative;
   background-color: #ab87bb;
 
+  flex: 0 0 auto;
   width: 80vw;
   aspect-ratio: 16 / 9;
 
