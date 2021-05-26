@@ -90,5 +90,8 @@ new ControlPanel(controlsElement, {
     ])
     .on(options => {
       handsDetectionOn = options.handsDetectionOn;
+
+      // config both for mediapipe api and video input
       videoElement.classList.toggle('selfie', options.selfieMode);
+      hands.setOptions({selfieMode: options.selfieMode});
     });
