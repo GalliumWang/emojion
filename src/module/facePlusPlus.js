@@ -1,9 +1,6 @@
 const { default: axios } = require("axios");
 const FormData = require('form-data');
 
-// face++ 情绪识别API返回情绪字段到中文的映射字典
-let emotion_E2C_map={anger:"愤怒",disgust:"厌恶",fear:"恐惧",happiness:"高兴",neutral:"平静",sadness:"伤心",surprise:"惊讶"}
-
 let facePlusPlusAPIKey={key:"ZmxfZ41YiSfPb0hAkNpsOfIinZi8wyrq",secret:"F91UFsIs7-VxTzvUo1ZW3TfoNOhyYlWE"};
 
 async function facePlusPlusEmotionDetect(imgBASE64){
@@ -35,4 +32,4 @@ async function facePlusPlusEmotionDetect(imgBASE64){
 
 }
 
-exports.facePlusPlusEmotionDetect=facePlusPlusEmotionDetect;
+exports.facePlusPlusEmotionDetect = facePlusPlusEmotionDetect;
