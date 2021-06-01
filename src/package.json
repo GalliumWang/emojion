@@ -9,11 +9,16 @@
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "form-data": "^4.0.0",
-    "multer": "^1.4.2"
+    "multer": "^1.4.2",
+    "postcss-cli": "^8.3.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "autoprefixer": "^10.2.6",
+    "postcss": "^8.3.0",
+    "tailwindcss": "^2.1.2"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "postcss static/src/css/style.css -o static/style.css"
   },
   "repository": {
     "type": "git",
