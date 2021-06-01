@@ -153,3 +153,37 @@ function detectEmotionAndShowEmoji(){
 }
 
 let detectEmotionAndShowEmojiThrottled=_.throttle(detectEmotionAndShowEmoji, 3000);
+
+let root = document.querySelector(':root');
+
+function changeTheme(targetColor){
+  root.style.setProperty('--bg-color', targetColor);
+}
+
+function getMatchedLabelForRadio(labelId){
+  return document.querySelector('label[for=' + labelId + ']');
+}
+
+window.onload = (event) =>{
+  console.log('loaded');
+
+  let radios = document.querySelectorAll("input[type='radio'][name='radio']");
+
+  for(radio of radios){
+    if(radio.checked == true){
+      let matchedLabel = getMatchedLabelForRadio(radio.id);
+      console.log(matchedLabel);
+      changeTheme(matchedLabel.firstElementChild.style['background-color']);
+    }
+  }
+  
+  let leftMenu = document.querySelector('#left-menu');
+  let changeThemeEventProxy = (event) => {
+    if(event.target.tagName != 'SPAN'){
+      return;
+    }
+    let targetColor = event.target.style['background-color'];
+    changeTheme(targetColor);
+  }
+  leftMenu.addEventListener('click', changeThemeEventProxy);
+}

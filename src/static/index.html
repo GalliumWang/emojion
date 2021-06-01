@@ -21,6 +21,44 @@
 </head>
 <body>
 
+  <div id="left-menu" class="menu w-1/5 flex flex-col justify-start content-center">
+      <h2 class="text-center text-xl my-3" onclick="event.stopPropagation();">主题</h2>
+      <div class="flex items-center justify-center my-1.5">
+        <input id="radio1" type="radio" name="radio" class="hidden" checked />
+        <label for="radio1" class="flex items-center cursor-pointer text-xl">
+          <span style="background-color: #A18276;" class="w-8 h-8 block rounded-full border border-grey flex-no-shrink"></span>
+        </label>
+      </div>
+    
+      <div class="flex items-center justify-center my-1.5">
+        <input id="radio2" type="radio" name="radio" class="hidden" />
+        <label for="radio2" class="flex items-center cursor-pointer text-xl">
+          <span style="background-color: #3C6997;" class="w-8 h-8 block rounded-full border border-grey flex-no-shrink"></span>
+        </label>
+      </div>
+      
+        <div class="flex items-center justify-center my-1.5">
+        <input id="radio3" type="radio" name="radio" class="hidden" />
+        <label for="radio3" class="flex items-center cursor-pointer text-xl">
+          <span style="background-color: #DDE0BD;" class="w-8 h-8 block rounded-full border border-grey flex-no-shrink"></span>
+        </label>
+      </div>
+    
+    <div class="flex items-center justify-center my-1.5">
+        <input id="radio4" type="radio" name="radio" class="hidden" />
+        <label for="radio4" class="flex items-center cursor-pointer text-xl">
+          <span style="background-color: #DD9787;" class="w-8 h-8 block rounded-full border border-grey flex-no-shrink"></span>
+        </label>
+      </div>
+    
+    <div class="flex items-center justify-center my-1.5">
+        <input id="radio5" type="radio" name="radio" class="hidden" />
+        <label for="radio5" class="flex items-center cursor-pointer text-xl">
+          <span style="background-color: #F4B886;" class="w-8 h-8 block rounded-full border border-grey flex-no-shrink"></span>
+        </label>
+      </div>
+  </div>
+
   <div class="container">
     <div class="control-panel">
     </div>
@@ -32,6 +70,11 @@
         加载中
       </div>
     </div>
+  </div>
+
+  <!-- for future usage -->
+  <div id="right-menu" class="menu w-1/5">
+
   </div>
 
 <canvas style="display: none;" id="videoImageCapturer"></canvas>
