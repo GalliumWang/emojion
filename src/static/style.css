@@ -9,6 +9,7 @@
 
 html{
   overflow: auto;
+  --bg-color-switch-duration: .7s;  
 }
 
 body {
@@ -27,6 +28,9 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+
+  background-color: #afbfc0;
+  transition: background-color var(--bg-color-switch-duration);
 }
 
 .container {
