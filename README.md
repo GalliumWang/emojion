@@ -8,6 +8,7 @@
 - camera authority alert
 
 ## Roadmap
+- add doc for this project
 - add local storage support for theme config
 - refactor using vue to add support for dynamic container border color
 - global layout need to be refacored
