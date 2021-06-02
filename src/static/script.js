@@ -1,3 +1,16 @@
+
+function DesktopCheck(){
+  return !/Android|webOS|iPhone|iPad|Mac|Macintosh|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+function toggleModal () {
+  const body = document.querySelector('body')
+  const modal = document.querySelector('.modal')
+  modal.classList.toggle('opacity-0')
+  modal.classList.toggle('pointer-events-none')
+  body.classList.toggle('modal-active')
+}
+
 const COLOR_LIST = {
   handsContour:'#b881e2',
   handsJointContour: '#e8b06b',
@@ -60,58 +73,6 @@ function onResults(results) {
   }
 }
 
-const hands = new Hands({locateFile: (file) => {
-  return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.1/${file}`;
-}});
-
-hands.setOptions({
-  maxNumHands: 2,
-  minDetectionConfidence: 0.5,
-  minTrackingConfidence: 0.5
-})
-hands.onResults(onResults);
-
-const camera = new Camera(videoElement, {
-  onFrame: async () => {
-    fpsControl.tick();
-    if(lodingComponent.style.display !== "none"){
-      lodingComponent.style.display = 'none';
-    }
-    if(handsDetectionOn){
-      await hands.send({image: videoElement});
-    }
-    if(emojiDropAnimationOn){
-      detectEmotionAndShowEmojiThrottled();
-    }
-  },
-  width: 1280,
-  height: 720
-});
-camera.start();
-
-// Present a control panel through which the user can manipulate the solution
-// options.
-new ControlPanel(controlsElement, {
-      selfieMode: true,
-      handsDetectionOn: false,
-      emojiDropAnimation: false
-    })
-    .add([
-      new StaticText({title: '设置'}),
-      fpsControl,
-      new Toggle({title: '镜像', field: 'selfieMode'}),
-      new Toggle({title: '手部识别', field: 'handsDetectionOn'}),
-      new Toggle({title: '表情动画😇', field: 'emojiDropAnimation'})
-    ])
-    .on(options => {
-      handsDetectionOn = options.handsDetectionOn;
-      emojiDropAnimationOn = options.emojiDropAnimation;
-
-      // config both for mediapipe api and video input
-      videoElement.classList.toggle('selfie', options.selfieMode);
-      hands.setOptions({selfieMode: options.selfieMode});
-    });
-
 function faceDetect(){
   const options = {
     method: "POST",
@@ -154,6 +115,8 @@ function detectEmotionAndShowEmoji(){
 
 let detectEmotionAndShowEmojiThrottled=_.throttle(detectEmotionAndShowEmoji, 3000);
 
+let hands,camera;
+
 let root = document.querySelector(':root');
 
 function changeTheme(targetColor){
@@ -166,18 +129,27 @@ function getMatchedLabelForRadio(labelId){
 
 window.onload = (event) =>{
   console.log('loaded');
+  let leftMenu = document.querySelector('#left-menu');
+  let container = document.querySelector('.container');
+
+  if(!DesktopCheck()){
+    leftMenu.style.setProperty('filter','blur(16px)');
+    container.style.setProperty('filter','blur(16px)');
+    let inputVideo = document.querySelector('.input_video');
+    inputVideo.remove();
+    toggleModal();
+    return;
+  }
 
   let radios = document.querySelectorAll("input[type='radio'][name='radio']");
 
   for(radio of radios){
     if(radio.checked == true){
       let matchedLabel = getMatchedLabelForRadio(radio.id);
-      console.log(matchedLabel);
       changeTheme(matchedLabel.firstElementChild.style['background-color']);
     }
   }
   
-  let leftMenu = document.querySelector('#left-menu');
   let changeThemeEventProxy = (event) => {
     if(event.target.tagName != 'SPAN'){
       return;
@@ -186,4 +158,57 @@ window.onload = (event) =>{
     changeTheme(targetColor);
   }
   leftMenu.addEventListener('click', changeThemeEventProxy);
+
+  //FIXME: can't stop function after start
+  hands = new Hands({locateFile: (file) => {
+    return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.1/${file}`;
+  }});
+  
+  hands.setOptions({
+    maxNumHands: 2,
+    minDetectionConfidence: 0.5,
+    minTrackingConfidence: 0.5
+  })
+  hands.onResults(onResults);
+  
+  camera = new Camera(videoElement, {
+    onFrame: async () => {
+      fpsControl.tick();
+      if(lodingComponent.style.display !== "none"){
+        lodingComponent.style.display = 'none';
+      }
+      if(handsDetectionOn){
+        await hands.send({image: videoElement});
+      }
+      if(emojiDropAnimationOn){
+        detectEmotionAndShowEmojiThrottled();
+      }
+    },
+    width: 1280,
+    height: 720
+  });
+  camera.start();
+  
+  // Present a control panel through which the user can manipulate the solution
+  // options.
+  new ControlPanel(controlsElement, {
+        selfieMode: true,
+        handsDetectionOn: false,
+        emojiDropAnimation: false
+      })
+      .add([
+        new StaticText({title: '设置'}),
+        fpsControl,
+        new Toggle({title: '镜像', field: 'selfieMode'}),
+        new Toggle({title: '手部识别', field: 'handsDetectionOn'}),
+        new Toggle({title: '表情动画😇', field: 'emojiDropAnimation'})
+      ])
+      .on(options => {
+        handsDetectionOn = options.handsDetectionOn;
+        emojiDropAnimationOn = options.emojiDropAnimation;
+  
+        // config both for mediapipe api and video input
+        videoElement.classList.toggle('selfie', options.selfieMode);
+        hands.setOptions({selfieMode: options.selfieMode});
+      });
 }

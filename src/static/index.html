@@ -4,6 +4,7 @@
   <title>Emojion</title>
   <link rel="icon" href="/Assets/img/favicon.ico">
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils@0.1/control_utils.css" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.1/camera_utils.js" crossorigin="anonymous"></script>
@@ -21,45 +22,45 @@
 </head>
 <body>
 
-  <div id="left-menu" class="menu w-1/5 flex flex-col justify-start content-center">
-      <h2 class="text-center text-xl my-3" onclick="event.stopPropagation();">主题</h2>
+  <div id="left-menu" class="menu flex flex-col justify-start content-center">
+      <h2 class="text-center hidden md:inline md:text-xl my-3" onclick="event.stopPropagation();">主题</h2>
       <div class="flex items-center justify-center my-1.5">
         <input id="radio1" type="radio" name="radio" class="hidden" checked />
         <label for="radio1" class="flex items-center cursor-pointer text-xl">
-          <span style="background-color: #A18276;" class="w-8 h-8 block rounded-full border border-grey flex-no-shrink"></span>
+          <span style="background-color: #A18276;" class="md:w-8 md:h-8 w-4 h-4 block rounded-full border border-grey flex-no-shrink"></span>
         </label>
       </div>
     
       <div class="flex items-center justify-center my-1.5">
         <input id="radio2" type="radio" name="radio" class="hidden" />
         <label for="radio2" class="flex items-center cursor-pointer text-xl">
-          <span style="background-color: #3C6997;" class="w-8 h-8 block rounded-full border border-grey flex-no-shrink"></span>
+          <span style="background-color: #3C6997;" class="md:w-8 md:h-8 w-4 h-4 block rounded-full border border-grey flex-no-shrink"></span>
         </label>
       </div>
       
         <div class="flex items-center justify-center my-1.5">
         <input id="radio3" type="radio" name="radio" class="hidden" />
         <label for="radio3" class="flex items-center cursor-pointer text-xl">
-          <span style="background-color: #DDE0BD;" class="w-8 h-8 block rounded-full border border-grey flex-no-shrink"></span>
+          <span style="background-color: #DDE0BD;" class="md:w-8 md:h-8 w-4 h-4 block rounded-full border border-grey flex-no-shrink"></span>
         </label>
       </div>
     
     <div class="flex items-center justify-center my-1.5">
         <input id="radio4" type="radio" name="radio" class="hidden" />
         <label for="radio4" class="flex items-center cursor-pointer text-xl">
-          <span style="background-color: #DD9787;" class="w-8 h-8 block rounded-full border border-grey flex-no-shrink"></span>
+          <span style="background-color: #DD9787;" class="md:w-8 md:h-8 w-4 h-4 block rounded-full border border-grey flex-no-shrink"></span>
         </label>
       </div>
     
     <div class="flex items-center justify-center my-1.5">
         <input id="radio5" type="radio" name="radio" class="hidden" />
         <label for="radio5" class="flex items-center cursor-pointer text-xl">
-          <span style="background-color: #F4B886;" class="w-8 h-8 block rounded-full border border-grey flex-no-shrink"></span>
+          <span style="background-color: #F4B886;" class="md:w-8 md:h-8 w-4 h-4 block rounded-full border border-grey flex-no-shrink"></span>
         </label>
       </div>
   </div>
 
-  <div class="container">
+  <div class="container border-t-8 border-b-8 border-l-8 border-r-8 box-content">
     <div class="control-panel">
     </div>
     <video class="input_video"></video>
@@ -73,11 +74,26 @@
   </div>
 
   <!-- for future usage -->
-  <div id="right-menu" class="menu w-1/5">
-
+  <div id="right-menu" class="menu">
   </div>
 
-<canvas style="display: none;" id="videoImageCapturer"></canvas>
+  <canvas style="display: none;" id="videoImageCapturer"></canvas>
 
+  <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+      <!-- Add margin if you want to see some of the overlay behind the modal-->
+      <div class="modal-content py-4 text-left px-6">
+        
+        <!--Title-->
+        <div class="flex justify-between items-center pb-3">
+          <p class="text-2xl font-bold">请使用桌面端浏览器访问!</p>
+        </div>
+
+        <!--Body-->
+        <p>为确保最佳使用体验，请使用桌面端浏览器访问该应用</p>
+        
+      </div>
+    </div>
+  </div>
 </body>
 </html>
