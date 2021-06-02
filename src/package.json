@@ -10,6 +10,7 @@
     "express": "^4.17.1",
     "form-data": "^4.0.0",
     "multer": "^1.4.2",
+    "node-sass": "^6.0.0",
     "postcss-cli": "^8.3.1"
   },
   "devDependencies": {
@@ -18,7 +19,9 @@
     "tailwindcss": "^2.1.2"
   },
   "scripts": {
-    "build": "postcss static/src/css/style.css -o static/style.css"
+    "build": "postcss static/src/css/style.css -o static/style.css",
+    "sass": "node-sass --watch static/src/scss -o static/src/css"
+    
   },
   "repository": {
     "type": "git",
