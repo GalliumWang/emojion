@@ -2,7 +2,7 @@
 - severe lag when switch hands detection on/off
 
 ## Todo
-- block drop animation befor css loaded event
+- block drop animation before load event
 - see todo tree
 - use color js lib to dynamicaly change container border color
 - camera authority alert
