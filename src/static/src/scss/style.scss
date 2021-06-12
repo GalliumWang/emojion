@@ -88,6 +88,7 @@ body {
   align-items: center;
   justify-content: center;
 }
+
 .loading .message {
   font-size: x-large;
 }
@@ -100,6 +101,24 @@ body {
   border-top: 32px solid #3498db;
   border-radius: 50%;
 }
+
+#enter-screen{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #9fa7cd;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+}
+
+#enter-button{
+}
+
 
 .menu{
   width: 10%;

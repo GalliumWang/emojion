@@ -4,6 +4,14 @@ function DesktopCheck(){
   return !/Android|webOS|iPhone|iPad|Mac|Macintosh|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
+if(!DesktopCheck()){
+  leftMenu.style.setProperty('filter','blur(16px)');
+  container.style.setProperty('filter','blur(16px)');
+  let inputVideo = document.querySelector('.input_video');
+  inputVideo.remove();
+  toggleModal();
+}
+
 function toggleModal () {
   const body = document.querySelector('body')
   const modal = document.querySelector('.modal')
@@ -11,6 +19,16 @@ function toggleModal () {
   modal.classList.toggle('pointer-events-none')
   body.classList.toggle('modal-active')
 }
+
+function enterScreenDisplayControl(show){
+  if(show){
+    document.querySelector('#enter-screen').style.removeProperty('display')
+  }
+  else{
+    document.querySelector('#enter-screen').style.setProperty('display', 'none');
+  }
+}
+
 
 function displayControl(element,show){ //FIXME: add support for both id and element variable
   element = document.querySelector(`#${element}`);
@@ -171,30 +189,8 @@ let changeThemeEventProxy = (event) => {
 
 leftMenu.addEventListener('click', changeThemeEventProxy);
 
-window.onload = (event) =>{
-  console.log('loaded');
-
-  if(!DesktopCheck()){
-    leftMenu.style.setProperty('filter','blur(16px)');
-    container.style.setProperty('filter','blur(16px)');
-    let inputVideo = document.querySelector('.input_video');
-    inputVideo.remove();
-    toggleModal();
-    return;
-  }
-
-  //FIXME: can't stop function after start
-  hands = new Hands({locateFile: (file) => {
-    return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.1/${file}`;
-  }});
-  
-  hands.setOptions({
-    maxNumHands: 2,
-    minDetectionConfidence: 0.5,
-    minTrackingConfidence: 0.5
-  })
-  hands.onResults(onResults);
-
+function startApp(){
+  enterScreenDisplayControl(false);
   requireCameraPermission();
 }
 
@@ -217,6 +213,18 @@ function requireCameraPermission(){
 }
 
 function startVideoAndControlPanel(){
+  //FIXME: can't stop function after start
+  hands = new Hands({locateFile: (file) => {
+    return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.1/${file}`;
+  }});
+  
+  hands.setOptions({
+    maxNumHands: 2,
+    minDetectionConfidence: 0.5,
+    minTrackingConfidence: 0.5
+  })
+  hands.onResults(onResults);
+
   camera = new Camera(videoElement, {
     onFrame: async () => {
       fpsControl.tick();
