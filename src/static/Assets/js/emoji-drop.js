@@ -17,6 +17,15 @@ function emojiImgPrefetch(){
     }
 }
 
+function randomToggle(){
+    if(Math.random()>0.5){
+        return 1;
+    }
+    else{
+        return -1;
+    }
+}
+
 emojiImgPrefetch();
 
 function imgElementFactory(emotionType){
@@ -57,12 +66,12 @@ function dropEmoji(emojiElement,cb){
     });
 }
 
-function rollOutEmoji(element,cb){
+function rollOutEmoji(element,cb,transition){
     let rollDistance = getWidth(document.querySelector('body'))/2 + getWidth(element)*DROPSCALE/2;
     gsap.to(element,{
                         duration: 2, 
                         rotation: calcRollDeg(rollDistance,getWidth(element)),
-                        x: `${rollDistance}px`,
+                        x: `${transition * rollDistance}px`,
                         onComplete: cb
     })
 
@@ -86,7 +95,7 @@ function triggerEmojiAnimation(emojiType){
     function onEmojiDropStart(){
         setTimeout(
             ()=>{
-                    rollOutEmoji(emojiElement,onEmojiRollOutComplete);
+                    rollOutEmoji(emojiElement,onEmojiRollOutComplete,randomToggle());
                 },
             DROPDURATION * 0.3 *1000
         )
