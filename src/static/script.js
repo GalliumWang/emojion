@@ -1,3 +1,4 @@
+let Color = net.brehaut.Color;
 
 function DesktopCheck(){
   return !/Android|webOS|iPhone|iPad|Mac|Macintosh|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -132,16 +133,46 @@ let root = document.querySelector(':root');
 
 function changeTheme(targetColor){
   root.style.setProperty('--bg-color', targetColor);
+  updateContainerBorderColor();
+}
+
+let leftMenu = document.querySelector('#left-menu');
+let container = document.querySelector('.container');
+
+function updateContainerBorderColor(){
+  let themeColor = root.style.getPropertyValue('--bg-color');
+  let colorObject = Color(themeColor);
+  container.style.setProperty('border-color',colorObject.darkenByRatio(0.5).toCSS());
 }
 
 function getMatchedLabelForRadio(labelId){
   return document.querySelector('label[for=' + labelId + ']');
 }
 
+
+// code excuted before load
+
+let radios = document.querySelectorAll("input[type='radio'][name='radio']");
+
+for(radio of radios){
+  if(radio.checked == true){
+    let matchedLabel = getMatchedLabelForRadio(radio.id);
+    changeTheme(matchedLabel.firstElementChild.style['background-color']);
+  }
+}
+
+let changeThemeEventProxy = (event) => {
+  if(event.target.tagName != 'SPAN'){
+    return;
+  }
+  let targetColor = event.target.style['background-color'];
+  changeTheme(targetColor);
+}
+
+leftMenu.addEventListener('click', changeThemeEventProxy);
+
 window.onload = (event) =>{
   console.log('loaded');
-  let leftMenu = document.querySelector('#left-menu');
-  let container = document.querySelector('.container');
 
   if(!DesktopCheck()){
     leftMenu.style.setProperty('filter','blur(16px)');
@@ -151,24 +182,6 @@ window.onload = (event) =>{
     toggleModal();
     return;
   }
-
-  let radios = document.querySelectorAll("input[type='radio'][name='radio']");
-
-  for(radio of radios){
-    if(radio.checked == true){
-      let matchedLabel = getMatchedLabelForRadio(radio.id);
-      changeTheme(matchedLabel.firstElementChild.style['background-color']);
-    }
-  }
-  
-  let changeThemeEventProxy = (event) => {
-    if(event.target.tagName != 'SPAN'){
-      return;
-    }
-    let targetColor = event.target.style['background-color'];
-    changeTheme(targetColor);
-  }
-  leftMenu.addEventListener('click', changeThemeEventProxy);
 
   //FIXME: can't stop function after start
   hands = new Hands({locateFile: (file) => {
