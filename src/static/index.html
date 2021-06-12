@@ -103,11 +103,9 @@
     </div>
   </div>
   <script>
-    let Color = net.brehaut.Color;
-    let root = document.querySelector(':root');
     let leftMenu = document.querySelector('#left-menu');
     let container = document.querySelector('.container');
-    
+
     function DesktopCheck(){
       return !/Android|webOS|iPhone|iPad|Mac|Macintosh|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
@@ -128,9 +126,17 @@
       toggleModal();
     }
 
-    function changeTheme(targetColor){
-      root.style.setProperty('--bg-color', targetColor);
-      updateContainerBorderColor();
+    let Color = net.brehaut.Color;
+    let root = document.querySelector(':root');
+    let themeColor = localStorage.getItem("themeColor") == null ? '#A18276' : localStorage.getItem("themeColor");
+    
+    function getMatchedLabelForRadio(labelId){
+      return document.querySelector('label[for=' + labelId + ']');
+    }
+
+    function getColorForRadio(radio){
+      let matchedLabel = getMatchedLabelForRadio(radio.id);
+      return matchedLabel.firstElementChild.style['background-color'];
     }
 
     function updateContainerBorderColor(){
@@ -139,16 +145,24 @@
       container.style.setProperty('border-color',colorObject.darkenByRatio(0.5).toCSS());
     }
 
-    function getMatchedLabelForRadio(labelId){
-      return document.querySelector('label[for=' + labelId + ']');
+    function changeTheme(targetColor){
+      root.style.setProperty('--bg-color', targetColor);
+      updateContainerBorderColor();
     }
+
+    function updateTheme(){
+      localStorage.setItem('themeColor',themeColor);
+      changeTheme(themeColor);
+    }
+
+    updateTheme();
 
     let radios = document.querySelectorAll("input[type='radio'][name='radio']");
 
     for(radio of radios){
-      if(radio.checked == true){
-        let matchedLabel = getMatchedLabelForRadio(radio.id);
-        changeTheme(matchedLabel.firstElementChild.style['background-color']);
+      if(getColorForRadio(radio) == themeColor){
+        radio.checked = true;
+        break;
       }
     }
 
@@ -157,7 +171,9 @@
         return;
       }
       let targetColor = event.target.style['background-color'];
-      changeTheme(targetColor);
+
+      themeColor = targetColor;
+      updateTheme();
     }
 
     leftMenu.addEventListener('click', changeThemeEventProxy);
