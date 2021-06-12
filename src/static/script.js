@@ -1,23 +1,7 @@
-let Color = net.brehaut.Color;
-
-function DesktopCheck(){
-  return !/Android|webOS|iPhone|iPad|Mac|Macintosh|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
-
-if(!DesktopCheck()){
-  leftMenu.style.setProperty('filter','blur(16px)');
-  container.style.setProperty('filter','blur(16px)');
-  let inputVideo = document.querySelector('.input_video');
-  inputVideo.remove();
-  toggleModal();
-}
-
-function toggleModal () {
-  const body = document.querySelector('body')
-  const modal = document.querySelector('.modal')
-  modal.classList.toggle('opacity-0')
-  modal.classList.toggle('pointer-events-none')
-  body.classList.toggle('modal-active')
+const COLOR_LIST = {
+  handsContour:'#b881e2',
+  handsJointContour: '#e8b06b',
+  handsJoint: '#7021ad'
 }
 
 function enterScreenDisplayControl(show){
@@ -28,7 +12,6 @@ function enterScreenDisplayControl(show){
     document.querySelector('#enter-screen').style.setProperty('display', 'none');
   }
 }
-
 
 function displayControl(element,show){ //FIXME: add support for both id and element variable
   element = document.querySelector(`#${element}`);
@@ -41,24 +24,6 @@ function displayControl(element,show){ //FIXME: add support for both id and elem
 
 }
 
-const COLOR_LIST = {
-  handsContour:'#b881e2',
-  handsJointContour: '#e8b06b',
-  handsJoint: '#7021ad'
-}
-
-let handsDetectionOn = false;
-let emojiDropAnimationOn = false;
-
-// Our input frames will come from here.
-const videoElement =
-    document.getElementsByClassName('input_video')[0];
-const canvasElement =
-    document.getElementsByClassName('output_canvas')[0];
-const controlsElement =
-    document.getElementsByClassName('control-panel')[0];
-const canvasCtx = canvasElement.getContext('2d');
-
 function videoImageGetter(){
   var canvas = document.getElementById('videoImageCapturer');     
   var video = document.querySelector('video');
@@ -68,16 +33,7 @@ function videoImageGetter(){
   return canvas.toDataURL();
 }
 
-// We'll add this to our control panel later, but we'll save it here so we can
-// call tick() each time the graph runs.
-const fpsControl = new FPS();
-
-// TODO: optimize to hide loding logo dynamically
-const lodingComponent = document.querySelector('.loading');
-
 function onResults(results) {
-  // Update the frame rate.
-
   // Draw the overlays.
   canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
@@ -103,96 +59,27 @@ function onResults(results) {
   }
 }
 
-function faceDetect(){
-  const options = {
-    method: "POST",
-    headers: {'content-type': 'application/json'},
-    mode: 'cors'
-  };
+let handsDetectionOn = false;
+let emojiDropAnimationOn = false;
 
-  let body={
-            base64Data:null
-          }
-  
-  let currentImgBase64Data = videoImageGetter();
-  currentImgBase64Data = currentImgBase64Data.substr(currentImgBase64Data.indexOf(",")+1);
-  body.base64Data=currentImgBase64Data;
-  options.body = JSON.stringify(body);
-  return fetch('/api/face-plus-plus-emotion-detect', options).then(res=>{return res.json();});
-}
-
-async function getEmotionResult(){
-  let faceDetectionResult = await faceDetect();
-  if(faceDetectionResult.faces.length == 0){
-    return null;
-  }
-  else{
-    let emotionRatings = faceDetectionResult.faces[0].attributes.emotion;
-    return Object.keys(emotionRatings).reduce((a, b) => emotionRatings[a] > emotionRatings[b] ? a : b);
-  }
-}
-
-function detectEmotionAndShowEmoji(){
-  getEmotionResult().then(res=>{
-                                if(res){
-                                  triggerEmojiAnimation(res)
-                                }
-                                else{
-                                  console.log('no face detected');
-                                }
-                              });
-}
-
-let detectEmotionAndShowEmojiThrottled=_.throttle(detectEmotionAndShowEmoji, 3000);
+// Our input frames will come from here.
+const videoElement =
+    document.getElementsByClassName('input_video')[0];
+const canvasElement =
+    document.getElementsByClassName('output_canvas')[0];
+const controlsElement =
+    document.getElementsByClassName('control-panel')[0];
+const canvasCtx =
+    canvasElement.getContext('2d');
+const fpsControl = 
+    new FPS();
+const lodingComponent =
+    document.querySelector('.loading');
 
 let hands,camera;
-
-let root = document.querySelector(':root');
-
-function changeTheme(targetColor){
-  root.style.setProperty('--bg-color', targetColor);
-  updateContainerBorderColor();
-}
-
-let leftMenu = document.querySelector('#left-menu');
-let container = document.querySelector('.container');
-
-function updateContainerBorderColor(){
-  let themeColor = root.style.getPropertyValue('--bg-color');
-  let colorObject = Color(themeColor);
-  container.style.setProperty('border-color',colorObject.darkenByRatio(0.5).toCSS());
-}
-
-function getMatchedLabelForRadio(labelId){
-  return document.querySelector('label[for=' + labelId + ']');
-}
-
-
-// code excuted before load
-
-let radios = document.querySelectorAll("input[type='radio'][name='radio']");
-
-for(radio of radios){
-  if(radio.checked == true){
-    let matchedLabel = getMatchedLabelForRadio(radio.id);
-    changeTheme(matchedLabel.firstElementChild.style['background-color']);
-  }
-}
-
-let changeThemeEventProxy = (event) => {
-  if(event.target.tagName != 'SPAN'){
-    return;
-  }
-  let targetColor = event.target.style['background-color'];
-  changeTheme(targetColor);
-}
-
-leftMenu.addEventListener('click', changeThemeEventProxy);
-
-function startApp(){
-  enterScreenDisplayControl(false);
-  requireCameraPermission();
-}
+hands = new Hands({locateFile: (file) => {
+  return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.1/${file}`;
+}});  // for reuse after every stop
 
 function requireCameraPermission(){
   setTimeout(() => {
@@ -213,11 +100,6 @@ function requireCameraPermission(){
 }
 
 function startVideoAndControlPanel(){
-  //FIXME: can't stop function after start
-  hands = new Hands({locateFile: (file) => {
-    return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.1/${file}`;
-  }});
-  
   hands.setOptions({
     maxNumHands: 2,
     minDetectionConfidence: 0.5,
@@ -244,8 +126,6 @@ function startVideoAndControlPanel(){
 
   camera.start();
   
-  // Present a control panel through which the user can manipulate the solution
-  // options.
   new ControlPanel(controlsElement, {
         selfieMode: true,
         handsDetectionOn: false,
@@ -267,3 +147,13 @@ function startVideoAndControlPanel(){
         hands.setOptions({selfieMode: options.selfieMode});
       });
 }
+
+function startApp(){
+  enterScreenDisplayControl(false);
+  requireCameraPermission();
+}
+
+// function stopApp{
+//   // clear content in video and canvas element
+//   // remove control panel and make enter screen visible again
+// }

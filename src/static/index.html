@@ -17,6 +17,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/color-js/1.0.1/color.min.js" integrity="sha512-ODHUqBj0yOk4rj5ORt7EExbT4Jq+yQ5EbeQH2Ri3eMkCBIR9wgUOWXO5CYr37yl2pV1+YdXIPbAYgEKHyM/k8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   
   <script defer src="/Assets/js/emoji-drop.js"></script>
+  <script defer src="/Assets/js/emotionDetectUtils.js"></script>
   <link rel="stylesheet" href="./style.css">
   <script defer src="./script.js"></script> 
 
@@ -101,5 +102,65 @@
       </div>
     </div>
   </div>
+  <script>
+    let Color = net.brehaut.Color;
+    let root = document.querySelector(':root');
+    let leftMenu = document.querySelector('#left-menu');
+    let container = document.querySelector('.container');
+    
+    function DesktopCheck(){
+      return !/Android|webOS|iPhone|iPad|Mac|Macintosh|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    function toggleModal () {
+      const body = document.querySelector('body')
+      const modal = document.querySelector('.modal')
+      modal.classList.toggle('opacity-0')
+      modal.classList.toggle('pointer-events-none')
+      body.classList.toggle('modal-active')
+    }
+
+    if(!DesktopCheck()){
+      leftMenu.style.setProperty('filter','blur(16px)');
+      container.style.setProperty('filter','blur(16px)');
+      let inputVideo = document.querySelector('.input_video');
+      inputVideo.remove();
+      toggleModal();
+    }
+
+    function changeTheme(targetColor){
+      root.style.setProperty('--bg-color', targetColor);
+      updateContainerBorderColor();
+    }
+
+    function updateContainerBorderColor(){
+      let themeColor = root.style.getPropertyValue('--bg-color');
+      let colorObject = Color(themeColor);
+      container.style.setProperty('border-color',colorObject.darkenByRatio(0.5).toCSS());
+    }
+
+    function getMatchedLabelForRadio(labelId){
+      return document.querySelector('label[for=' + labelId + ']');
+    }
+
+    let radios = document.querySelectorAll("input[type='radio'][name='radio']");
+
+    for(radio of radios){
+      if(radio.checked == true){
+        let matchedLabel = getMatchedLabelForRadio(radio.id);
+        changeTheme(matchedLabel.firstElementChild.style['background-color']);
+      }
+    }
+
+    let changeThemeEventProxy = (event) => {
+      if(event.target.tagName != 'SPAN'){
+        return;
+      }
+      let targetColor = event.target.style['background-color'];
+      changeTheme(targetColor);
+    }
+
+    leftMenu.addEventListener('click', changeThemeEventProxy);
+  </script>
 </body>
 </html>
