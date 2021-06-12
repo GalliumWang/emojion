@@ -11,6 +11,17 @@ function toggleModal () {
   body.classList.toggle('modal-active')
 }
 
+function displayControl(element,show){ //FIXME: add support for both id and element variable
+  element = document.querySelector(`#${element}`);
+  if(show){
+    element.classList.remove('hidden');
+  }
+  else{
+    element.classList.add('hidden');
+  }
+
+}
+
 const COLOR_LIST = {
   handsContour:'#b881e2',
   handsJointContour: '#e8b06b',
@@ -170,7 +181,29 @@ window.onload = (event) =>{
     minTrackingConfidence: 0.5
   })
   hands.onResults(onResults);
-  
+
+  requireCameraPermission();
+}
+
+function requireCameraPermission(){
+  setTimeout(() => {
+    displayControl('spinner',false);
+    displayControl('camera-permission-alert',true);
+  }, 2000);
+  navigator.mediaDevices.getUserMedia({video: { width: 1280, height: 720 }})
+  .then(function(stream) {
+    startVideoAndControlPanel();
+  })
+  .catch(function(err) {
+    let cameraPermissionAlert = document.querySelector('#camera-permission-alert');
+    if(cameraPermissionAlert.innerHTML != '请使用带摄像头的设备访问或在浏览器中允许该应用的相机权限'){
+      cameraPermissionAlert.innerHTML = '请使用带摄像头的设备访问或在浏览器中允许该应用的相机权限';
+    }
+    setTimeout(requireCameraPermission, 1000);
+  });
+}
+
+function startVideoAndControlPanel(){
   camera = new Camera(videoElement, {
     onFrame: async () => {
       fpsControl.tick();
@@ -187,6 +220,7 @@ window.onload = (event) =>{
     width: 1280,
     height: 720
   });
+
   camera.start();
   
   // Present a control panel through which the user can manipulate the solution

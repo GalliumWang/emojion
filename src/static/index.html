@@ -66,10 +66,14 @@
     <video class="input_video"></video>
     <canvas class="output_canvas"></canvas>
     <div class="loading">
-      <div class="spinner"></div>
-      <div class="message">
-        加载中
+      <div class="spinner" id="spinner"></div>
+      <div class="message hidden" id="camera-permission-alert">
+        请允许相机权限
       </div>
+      <!-- will overlay with spinner anime -->
+      <!-- <div class="message">
+        加载中
+      </div> -->
     </div>
   </div>
 
