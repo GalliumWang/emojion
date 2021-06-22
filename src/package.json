@@ -19,6 +19,7 @@
     "tailwindcss": "^2.1.2"
   },
   "scripts": {
+    "serve": "node index.js",
     "build": "echo \"Error: build command not set up\"",
     "build-style": "node-sass static/src/scss -o static/src/css && postcss static/src/css -d static"
   },
