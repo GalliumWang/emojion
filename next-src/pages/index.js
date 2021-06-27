@@ -1,5 +1,6 @@
-import Head from 'next/head'
-import Image from 'next/image'
+import Head from 'next/head';
+import Image from 'next/image';
+import Themebar from '/components/themebar';
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/color-js/1.0.1/color.min.js" integrity="sha512-ODHUqBj0yOk4rj5ORt7EExbT4Jq+yQ5EbeQH2Ri3eMkCBIR9wgUOWXO5CYr37yl2pV1+YdXIPbAYgEKHyM/k8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
       </Head>
+      <Themebar/>
     </div>
   )
 }
