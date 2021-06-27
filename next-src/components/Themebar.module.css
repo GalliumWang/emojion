@@ -1,4 +1,4 @@
 .menu {
-    width: 10%;
-    min-width: 40px;
+    width: 50%;
+    height: min-content;
 }
