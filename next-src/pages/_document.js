@@ -11,7 +11,7 @@ class MyDocument extends Document {
       <Html>
         <Head>
             <link rel="icon" href="/Assets/img/favicon.ico" />
-            <meta charset="UTF-8" />
+            <meta charSet="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <meta name="description" content="emotion detection" />
         </Head>

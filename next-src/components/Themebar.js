@@ -1,4 +1,4 @@
-import styles from './Themebar.module.css';
+import styles from './Themebar.module.scss';
 import Themebutton from './Themebutton';
 
 function Themebar() {
