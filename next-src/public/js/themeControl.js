@@ -3,8 +3,9 @@ const Color = net.brehaut.Color;
 let themeBar = document.querySelector('#themeBar');
 
 function updateComponentTheme(){
+    console.log(111);
     let colorObject = Color(currentThemeColor);
-    // videoPlayer.style.setProperty('border-color',colorObject.darkenByRatio(0.5).toCSS());
+    videoContainer.style.setProperty('border-color',colorObject.darkenByRatio(0.5).toCSS());
 }
 
 function updateUITheme(targetColor){
@@ -34,5 +35,17 @@ let currentThemeColor = localStorage.getItem("themeColor") == null ? themeColorL
 themeInputList[themeColorList.findIndex((element) =>{
     return element == currentThemeColor;
 })].checked = true; // select configered theme
+
+let changeThemeEventProxy = (event) => {
+    if(event.target.tagName != 'SPAN'){
+        return;
+    }
+    let targetColor = event.target.style['background-color'];
+    currentThemeColor = targetColor;
+    console.log(111);
+    updateTheme();
+}
+
+themeBar.addEventListener('click', changeThemeEventProxy);
 
 updateTheme();

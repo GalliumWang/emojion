@@ -1,0 +1,61 @@
+.videoContainer {
+    position: relative;
+    background-color: #b596c2;
+    border-color: #FFFFFF;
+
+    flex: 0 0 auto;
+    width: 80%;
+    aspect-ratio: 16 / 9;
+
+    border-radius: 25px;
+    overflow: hidden;
+
+    transition: border-color 1s;
+}
+
+.inputVideo {
+    top: 0;
+    left: 0;
+    &.selfie{
+        transform: scale(-1, 1);
+    }
+}
+
+.outputPanvas {
+    top: 0;
+    left: 0;
+}
+
+.controlPanel {
+    display: none;
+    // convert controlPanel to popup when the window is too narrow
+}
+
+@media screen and (min-width: 768px) {
+    .controlPanel {
+        left: 15px;
+        top: 15px;
+    }
+}
+
+@keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+.spinner {
+    width: 120px;
+    height: 120px;  // TODO: add RWD support
+    animation: spin 1s linear infinite;
+    border: 32px solid #bebebe;
+    border-top: 32px solid #3498db;
+    border-radius: 50%;
+}
+
+#enterScreen{
+    background-color: #9fa7cd;
+}
