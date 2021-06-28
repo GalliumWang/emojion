@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --bg-color: #FFFFFF;
+  --bg-color-switch-duration: 1s;  
+}
+
+body {
+  background-color: var(--bg-color);
+  transition: background-color var(--bg-color-switch-duration);
+}

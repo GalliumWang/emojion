@@ -11,35 +11,35 @@
     }
   }
 
-:root{
-  --bg-color: #FFFFFF;
-  --bg-color-switch-duration: 1s;  
-}
+// :root{
+//   --bg-color: #FFFFFF;
+//   --bg-color-switch-duration: 1s;  
+// }
 
-html{
-  overflow: auto;
-}
+// html{
+//   overflow: auto;
+// }
 
-body {
-  font-family: "Titillium Web", sans-serif;
+// body {
+//   font-family: "Titillium Web", sans-serif;
 
-  margin: 0;
-  height: 100vh;
+//   margin: 0;
+//   height: 100vh;
 
-  min-width: 320px;
-  min-height: 45vw; //FIXME: use width of body
+//   min-width: 320px;
+//   min-height: 45vw; //FIXME: use width of body
 
-  overflow: hidden;
-  position: relative;
+//   overflow: hidden;
+//   position: relative;
 
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: space-around;
 
-  background-color: var(--bg-color);
-  transition: background-color var(--bg-color-switch-duration);
-}
+//   background-color: var(--bg-color);
+//   transition: background-color var(--bg-color-switch-duration);
+// }
 
 .container {
   position: relative;
