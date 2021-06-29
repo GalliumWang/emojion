@@ -3,7 +3,6 @@ const Color = net.brehaut.Color;
 let themeBar = document.querySelector('#themeBar');
 
 function updateComponentTheme(){
-    console.log(111);
     let colorObject = Color(currentThemeColor);
     videoContainer.style.setProperty('border-color',colorObject.darkenByRatio(0.5).toCSS());
 }
@@ -12,7 +11,7 @@ function updateUITheme(targetColor){
     root.style.setProperty('--bg-color', targetColor);
     updateComponentTheme();
 }
-  
+
 function updateTheme(){
     localStorage.setItem('themeColor',currentThemeColor);
     updateUITheme(currentThemeColor);

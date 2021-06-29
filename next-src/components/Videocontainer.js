@@ -2,7 +2,20 @@ import Head from 'next/head'
 import React from 'react'
 import styles from './Videocontainer.module.scss'
 
+
+
 function Videocontainer() {
+    const Draw_COLOR_LIST = {
+        handsContour:'#b881e2',
+        handsJointContour: '#e8b06b',
+        handsJoint: '#7021ad'
+    }
+
+    // let enterScreen = null;
+    function startApp(){
+        enterScreen.classList.add('hidden');
+    }
+
     return (
         <React.Fragment>
             <Head>
@@ -25,8 +38,8 @@ function Videocontainer() {
                         请允许相机权限
                     </div>
                 </div>
-                <div id={styles.enterScreen} className="absolute w-full h-full flex items-center justify-around">
-                    <a onClick="startApp()" id="enterButton" className="border-2 border-blue-500 rounded-full font-bold text-blue-500 px-4 py-3 transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white">
+                <div id="enterScreen" className={`${styles.enterScreen} absolute w-full h-full flex items-center justify-around`}>
+                    <a onClick={startApp} id="enterButton" className="border-2 border-blue-500 rounded-full font-bold text-blue-500 px-4 py-3 transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white">
                     启动应用
                     </a>
                 </div>
