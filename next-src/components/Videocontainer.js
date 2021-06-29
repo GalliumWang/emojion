@@ -11,10 +11,15 @@ function Videocontainer() {
         handsJoint: '#7021ad'
     }
 
+    function changeAlterText(newText){
+        playerAlert.innerHTML = newText;
+    }
+    
     // let enterScreen = null;
     function startApp(){
         enterScreen.classList.add('hidden');
     }
+
 
     return (
         <React.Fragment>
@@ -34,8 +39,7 @@ function Videocontainer() {
 
                 <div className={`absolute w-full h-full flex items-center justify-around`}>
                     <div className={`${styles.spinner} absolute`}/>
-                    <div className="hidden text-2xl" id="cameraPermissionAlert">
-                        请允许相机权限
+                    <div className="truncate text-2xl px-3" id="playerAlert">
                     </div>
                 </div>
                 <div id="enterScreen" className={`${styles.enterScreen} absolute w-full h-full flex items-center justify-around`}>
